@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Hostel Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Favicon Icon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/4525/4525040.png" type="image/png">
+
+    <style>
+        body {
+            background-color: rgb(0, 0, 4);
+            /* Dark background */
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            /* Light text color */
+        }
+
+        .navbar-custom {
+            background-color: rgb(0, 0, 4);
+            /* Darker background for navbar */
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link {
+            color: #ffffff;
+            /* Light text color for navbar */
+        }
+
+        .navbar-custom .navbar-nav .nav-link:hover {
+            color: #a44b3c;
+            /* Highlight color */
+        }
+
+        .jumbotron-custom {
+            background: url('https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1600') no-repeat center center;
+            /* Background image */
+            background-color: rgb(0, 0, 4);;
+            background-size: cover;
+            /* Ensure the image covers the entire jumbotron */
+            color: white;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+
+
+        .jumbotron-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            text-align: center;
+        }
+
+        .jumbotron-content .left-content,
+        .jumbotron-content .right-content {
+            width: 45%;
+        }
+
+        .jumbotron-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .jumbotron-content p {
+            font-size: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .col-md-4 {
+            border-bottom: 1px solid wheat;
+            display: grid;
+        }
+
+
+
+        .btn-primary {
+            background-color: rgb(0, 0, 4);
+            border: 0.3px solid wheat;
+        }
+
+        .btn-primary:hover {
+            background-color: #4b4b4b;
+            border: 0.3px solid wheat;
+        }
+
+        .icon-custom {
+            color: #ffffff;
+            /* Highlight color for icons */
+            font-size: 50px;
+        }
+
+        .footer-custom {
+            background-color: #1f1f1f;
+            /* Darker background for footer */
+            color: white;
+            padding: 20px 0;
+        }
+
+        .footer-custom a {
+            color: #ffffff;
+            /* Highlight color for links */
+        }
+
+        .footer-custom a:hover {
+            color: #ffffff;
+            /* Light color on hover */
+            text-decoration: underline;
+        }
+
+        .contact-icons i {
+            margin: 0 10px;
+            font-size: 24px;
+            color: #ffffff;
+            /* Highlight color for contact icons */
+        }
+
+        .contact-icons i:hover {
+            color: #a44b3c;
+            /* Light color on hover */
+        }
+
+        .section-heading {
+            color: #ffc107;
+            /* Highlight color for section headings */
+        }
+
+        @media (max-width: 768px) {
+            .jumbotron-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .jumbotron-content .left-content,
+            .jumbotron-content .right-content {
+                width: 100%;
+            }
+
+            .jumbotron-content h1 {
+                font-size: 2rem;
+            }
+
+            .jumbotron-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <a class="navbar-brand" href="#">Stay Manager</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron jumbotron-fluid jumbotron-custom">
+        <div class="container jumbotron-content">
+            <div class="left-content">
+                <h1 class="display-4">Stay Manager</h1>
+                <p>Your one-stop solution for managing hostel activities efficiently.</p>
+            </div>
+            <div class="right-content">
+                <p class="lead">Effortlessly manage room assignments, ensure secure environments, and provide quality
+                    food services.</p>
+                <a href="/login" class="btn btn-primary btn-lg mt-3">
+                    <span>Continue to Login</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <i class="fas fa-bed icon-custom"></i>
+                <h3 class="mt-3 section-heading">Comfortable Rooms</h3>
+                <p>Experience the best living conditions with our well-furnished rooms.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="fas fa-shield-alt icon-custom"></i>
+                <h3 class="mt-3 section-heading">Secure Environment</h3>
+                <p>Safety and security of our residents are our top priority.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="fas fa-utensils icon-custom"></i>
+                <h3 class="mt-3 section-heading">Quality Food</h3>
+                <p>Enjoy nutritious and delicious meals prepared by our expert chefs.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-custom text-center">
+        <div class="container">
+            <p>&copy; 2024 Hostel Management System</p>
+            <p>
+                <a href="#about">About Us</a> |
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Contact Us</a>
+            </p>
+            <div class="contact-icons">
+                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:info@hostelmanagement.com"><i class="fas fa-envelope"></i></a>
+                <a href="tel:+916985745235"><i class="fas fa-phone-alt"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-heading">About Us</h2>
+            <p class="text-center">Hostel Management System is dedicated to providing the best living conditions and
+                services for students. Our goal is to make hostel management efficient, secure, and enjoyable for
+                everyone.</p>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

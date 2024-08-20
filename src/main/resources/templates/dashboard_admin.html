@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - StaySmart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        body {
+            padding-top: 56px;
+            background-color: rgb(0, 0, 4);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: rgb(0, 0, 4);
+            z-index: 1000;
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .navbar-custom .navbar-nav .nav-link:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: rgb(0, 0, 4);
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-right: 1px solid #333;
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar .nav-link {
+            color: #ffffff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover {
+            color: #a44b3c;
+            text-decoration: underline;
+            /* Highlight color */
+        }
+
+        .sidebar .nav-link.active {
+
+            background-color: #a44b3c;
+        }
+
+        .sidebar .nav-link.active:hover {
+            background-color: #d0d0d0;
+            /* Slightly darker background on hover */
+        }
+
+        .main-content {
+            margin-left: 250px;
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #ffffff;
+            background-color: rgb(20, 20, 20);
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1.1rem;
+        }
+
+        .btn-custom {
+            background-color: #a44b3c;
+            color: #ffffff;
+        }
+
+        .btn-custom:hover {
+            background-color: #8e3d2f;
+        }
+
+        .footer {
+            background-color: #0c0c0c;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+            border-top: 1px solid #333;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-icons i {
+            margin: 0 10px;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        .contact-icons i:hover {
+            color: #a44b3c;
+        }
+
+        @media (max-width: 767.98px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                left: 0;
+                height: auto;
+                padding: 10px;
+                border-right: none;
+                box-shadow: none;
+            }
+
+            .card {
+                flex-direction: column;
+                max-width: 100%;
+            }
+        }
+
+        /* Gradient backgrounds for cards */
+        .card.bg-primary {
+            background: linear-gradient(to right, #4b545d, #2b2f34);
+        }
+
+        .card.bg-success {
+            background: linear-gradient(to right, #4a805e, #2d523b);
+        }
+
+        .card.bg-warning {
+            background: linear-gradient(to right, #805e4a, #8f4a1f);
+            color: #ffffff;
+        }
+
+        .oval {
+            display: inline-block;
+            color: #fff;
+            padding: 3px;
+            border-radius: 50px;
+            border: 1px solid black;
+            font-weight: bold;
+            box-shadow: 0.2px 0.2px white;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            color: #ffffff;
+        }
+
+        .card-header {
+            background-color: #1f1f1f;
+            border-bottom: 1px solid #333;
+            font-weight: bold;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <a class="navbar-brand" href="#">Stay Manager</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="d-flex">
+        <nav class="sidebar p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/manage_student"><i class="fas fa-users"></i> Manage Students</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/manage_rooms"><i class="fas fa-bed"></i> Manage Rooms</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/manage_bookings"><i class="fas fa-calendar-alt"></i> Manage Bookings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin_setting"><i class="fas fa-cogs"></i> Settings</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content flex-fill">
+            <div class="container">
+                <!-- <h1 class="mb-4">Admin Dashboard</h1> -->
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Welcome <span th:text="${user.userEmail}"></span></h5>
+                                <p class="card-text">Manage students, rooms, and bookings efficiently.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Students</h5>
+                                <p class="card-text">Number of students currently live in the hostel: <span
+                                        th:text="${totalStudents}"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card bg-warning text-dark">
+                            <div class="card-body">
+                                <h5 class="card-title text-light">Pending Requests</h5>
+                                <a href="/requestformadmin" class="text-light">
+                                    <p class="card-text">Pending requests: <span class="oval"
+                                            th:text="${pendingRequests}"></span>
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Recent Activities
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Activity</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Added new student</td>
+                                            <td><span th:text="${user.activityDate1}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Updated room details</td>
+                                            <td><span th:text="${user.activityDate2}"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 StaySmart. All rights reserved.</p>
+        <p>Contact us: <span class="contact-icons">
+                <a href="#"><i class="fas fa-envelope"></i></a>
+                <a href="#"><i class="fas fa-phone"></i></a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i></a>
+            </span></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

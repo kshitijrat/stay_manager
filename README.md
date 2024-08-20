@@ -1,0 +1,2 @@
+# stay_manager
+ 

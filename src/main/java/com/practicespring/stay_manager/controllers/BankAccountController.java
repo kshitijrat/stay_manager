@@ -1,0 +1,110 @@
+package com.practicespring.stay_manager.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.practicespring.stay_manager.entities.BankAccount;
+import com.practicespring.stay_manager.entities.User;
+import com.practicespring.stay_manager.repo.BankAccountRepo;
+import com.practicespring.stay_manager.repo.UserRepo;
+import com.practicespring.stay_manager.services.BankAccountService;
+
+
+@Controller
+public class BankAccountController {
+
+    @Autowired
+    private BankAccountService bankAccountService;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+    @Autowired
+    private BankAccountRepo bankAccountRepo;
+
+    @PostMapping("/addbankaccount")
+    public String addBankAccount(@ModelAttribute("bankAccount") BankAccount bankAccount, Authentication authentication, RedirectAttributes redirectAttributes) {
+        System.out.println("runn post mapping of add bank account*****************************");
+        if(bankAccountService.isBankPresent(bankAccount.getCardNumber())){
+            redirectAttributes.addFlashAttribute("error", "This is error");
+            return "redirect:/bank_account";
+        }
+
+        if(bankAccountService.getAllBankAccounts().isEmpty()){
+            bankAccount.setPrimaryAccount(true);
+        }
+
+        String email = authentication.getName();
+        User user = userRepo.findUserByUserEmail(email);
+        bankAccount.setUser(user);
+        bankAccount.setPin(passwordEncoder.encode(bankAccount.getPin()));
+        bankAccountService.saveBankAccount(bankAccount);
+        redirectAttributes.addFlashAttribute("success", "this is success");
+        return "redirect:/bank_account";
+    }
+
+  
+
+    @PostMapping("/deletebankaccount/{id}")
+    public String deleteBankAccount(@PathVariable int id, RedirectAttributes redirectAttribute) {
+
+        BankAccount bankAccount = bankAccountService.getBankAccountById(id);
+        if(bankAccount.isPrimaryAccount()){
+            redirectAttribute.addFlashAttribute("error", "delete_primary_account");
+            return "redirect:/payment";
+        }
+
+        boolean isDeleted = bankAccountService.deleteBankAccount(id);
+
+        if (isDeleted) {
+            redirectAttribute.addAttribute("success", "Card Deleted Successfully!");
+        } else {
+            redirectAttribute.addAttribute("error", "Card Deletion Failed!");
+        }
+
+        List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
+        redirectAttribute.addAttribute("bankAccounts", bankAccounts);
+        redirectAttribute.addFlashAttribute("error", "delete_primary_account");
+        return "redirect:/payment";
+        
+    }
+
+    @PostMapping("/updatebankaccount/{id}")
+    public String updateBankAccount(@PathVariable int id, RedirectAttributes redirectAttribute, Authentication authentication){
+        String email = authentication.getName();
+        User user = userRepo.findUserByUserEmail(email);
+
+        List<BankAccount> bankAccountList = bankAccountRepo.findByUser(user);
+        BankAccount primaryAccount = bankAccountList.stream()
+                .filter(BankAccount::isPrimaryAccount)
+                .findFirst()
+                .orElse(null);
+
+        if (primaryAccount == null) {
+            redirectAttribute.addFlashAttribute("error", "no_primary_account");
+            return "redirect:/payment";
+        }
+
+        BankAccount bankAccount = bankAccountService.getBankAccountById(id);
+        bankAccount.setPrimaryAccount(true);;
+        // set prime account to secondary account
+        primaryAccount.setPrimaryAccount(false);
+        bankAccountService.saveBankAccount(bankAccount);
+        bankAccountService.saveBankAccount(primaryAccount);
+
+        redirectAttribute.addFlashAttribute("success", "success_update");
+        return "redirect:/payment";
+
+    }
+
+}
