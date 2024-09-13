@@ -230,7 +230,7 @@
                 <h1 class="mb-4 text-center text-light">Add Bank Account</h1>
 
                 <div class="card p-4 mb-4">
-                    <form id="addBankAccountForm" action="addbankaccount" method="post">
+                    <form id="addBankAccountForm" action="/addbankaccount" method="post">
                         <div class="form-group">
                             <label for="cardNumber"><img src="https://cdn-icons-png.flaticon.com/512/306/306473.png"
                                     class="form-icon" alt="Card Number Icon"> Card Number</label>
@@ -255,6 +255,12 @@
                             <input type="text" class="form-control" id="cvv" name="cvv" placeholder="Enter CVV"
                                 required>
                         </div>
+                        <div class="form-group">
+                            <label for="pin"><img src="https://cdn-icons-png.flaticon.com/512/622/622669.png"
+                                class="form-icon" alt="PIN Icon"> PIN</label>
+                            <input type="password" class="form-control" id="pin" name="pin" placeholder="Enter PIN" required>
+                        </div>
+                        
                         <button type="submit" class="btn btn-custom btn-block"><i class="fas fa-plus-circle"></i> Add
                             Bank Account</button>
                     </form>

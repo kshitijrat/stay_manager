@@ -36,7 +36,7 @@ public class BankAccountController {
     public String addBankAccount(@ModelAttribute("bankAccount") BankAccount bankAccount, Authentication authentication, RedirectAttributes redirectAttributes) {
         System.out.println("runn post mapping of add bank account*****************************");
         if(bankAccountService.isBankPresent(bankAccount.getCardNumber())){
-            redirectAttributes.addFlashAttribute("error", "This is error");
+            redirectAttributes.addFlashAttribute("error", "Card already exists!");
             return "redirect:/bank_account";
         }
 
@@ -46,14 +46,21 @@ public class BankAccountController {
 
         String email = authentication.getName();
         User user = userRepo.findUserByUserEmail(email);
+        //check if pin is present
+        if (bankAccount.getPin() == null || bankAccount.getPin().isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "PIN cannot be null or empty.");
+            return "redirect:/bank_account";
+        }  
+        bankAccount.setExpiryDate(bankAccount.getExpiryDate());
+        bankAccount.setAccountType("Null");      
         bankAccount.setUser(user);
         bankAccount.setPin(passwordEncoder.encode(bankAccount.getPin()));
         bankAccountService.saveBankAccount(bankAccount);
-        redirectAttributes.addFlashAttribute("success", "this is success");
+        redirectAttributes.addFlashAttribute("success", "Bank account added successfully!");
         return "redirect:/bank_account";
     }
 
-  
+
 
     @PostMapping("/deletebankaccount/{id}")
     public String deleteBankAccount(@PathVariable int id, RedirectAttributes redirectAttribute) {
