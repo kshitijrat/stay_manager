@@ -43,6 +43,7 @@ public class BankAccountController {
         if(bankAccountService.getAllBankAccounts().isEmpty()){
             bankAccount.setPrimaryAccount(true);
         }
+        
 
         String email = authentication.getName();
         User user = userRepo.findUserByUserEmail(email);
