@@ -43,7 +43,7 @@ public class BankAccountController {
         if(bankAccountService.getAllBankAccounts().isEmpty()){
             bankAccount.setPrimaryAccount(true);
         }
-        
+
 
         String email = authentication.getName();
         User user = userRepo.findUserByUserEmail(email);
@@ -53,7 +53,7 @@ public class BankAccountController {
             return "redirect:/bank_account";
         }  
         bankAccount.setExpiryDate(bankAccount.getExpiryDate());
-        bankAccount.setAccountType("Null");      
+        bankAccount.setAccountType("Saving");      
         bankAccount.setUser(user);
         bankAccount.setPin(passwordEncoder.encode(bankAccount.getPin()));
         bankAccountService.saveBankAccount(bankAccount);
