@@ -21,7 +21,7 @@
         }
 
         .navbar-custom {
-           background-color: rgb(0, 0, 4);
+            background-color: rgb(0, 0, 4);
             /* Darker background for navbar */
         }
 
@@ -32,7 +32,8 @@
         }
 
         .navbar-custom .navbar-nav .nav-link:hover {
-            color: #ffc107;
+            color: #e0e0e0;
+            text-decoration: underline;
             /* Highlight color */
         }
 
@@ -84,7 +85,7 @@
         .header {
             background: linear-gradient(to right, #2b2b2b, #1e1e1e);
             /* Dark gradient */
-      
+
             /* Highlight color */
             text-align: center;
             padding: 20px;
@@ -129,7 +130,7 @@
             background-color: #0c0c0c;
             /* Dark background */
             color: #e0e0e0;
-            border-top:1px solid #333;
+            border-top: 1px solid #333;
             /* Light text color */
             padding: 20px 0;
         }
@@ -139,14 +140,14 @@
             /* Light text color for links */
         }
 
-     
+
 
         .footer-custom a:hover {
             /* Highlight color on hover */
-            text-decoration:underline;
+            text-decoration: underline;
         }
 
-        .form-control{
+        .form-control {
             background-color: transparent;
             background: transparent;
         }
@@ -224,7 +225,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a class="nav-link" href="/room_report"><i class="fas fa-file-alt"></i> Room Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
@@ -237,19 +243,17 @@
                 <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/profile"><i class="fas fa-user"></i> Profile</a>
+                <a class="nav-link" th:href="@{/profile}"><i class="fas fa-user"></i> Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="/myroom"><i class="fas fa-bed"></i> My Room</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/settings"><i class="fas fa-cogs"></i> Settings</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/room_report"><i class="fas fa-file-alt"></i> Room Report</a>
+                <a class="nav-link" href="/payment"><i class="fas fa-money-check-alt"></i> Payments</a>
             </li>
         </ul>
     </nav>
+
 
     <!-- Main Content -->
     <div class="main-content">
@@ -372,6 +376,29 @@
         </div>
     </div>
 
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Footer -->
     <footer class="footer-custom text-center">
         <p>&copy; 2024 Stay Manager. All rights reserved.</p>
@@ -391,6 +418,26 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteForm = document.getElementById('deleteForm');
+            var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+            // Event listener for the delete confirmation button
+            confirmDeleteBtn.addEventListener('click', function () {
+                var form = deleteForm;
+                form.submit();
+            });
+
+            // Event listener to set the form action dynamically
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var action = button.data('action');
+                var form = document.getElementById('deleteForm');
+                form.action = action;
+            });
+        });
+    </script>
 </body>
 
 </html>

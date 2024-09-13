@@ -157,12 +157,12 @@
 
     .footer-custom {
         position: relative;
-            background-color: #0c0c0c;
-            /* Dark background */
-            color: #e0e0e0;
-            border-top:1px solid #333;
-            /* Light text color */
-            padding: 20px 0;
+        background-color: #0c0c0c;
+        /* Dark background */
+        color: #e0e0e0;
+        border-top: 1px solid #333;
+        /* Light text color */
+        padding: 20px 0;
     }
 
     .footer-custom a {
@@ -208,7 +208,9 @@
                     <a class="nav-link" href="/settings">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
@@ -260,6 +262,7 @@
                                 </div>
                             </div>
                             <h6>Payment History</h6>
+                            <!-- chart canvas -->
                             <canvas id="paymentChart"></canvas>
                             <table class="table mt-3">
                                 <thead>
@@ -288,6 +291,28 @@
         </div>
     </div>
 
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer-custom text-center">
         <p>&copy; 2024 Stay Manager. All rights reserved.</p>
@@ -309,6 +334,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- chart script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const ctx = document.getElementById('paymentChart').getContext('2d');
@@ -316,7 +342,7 @@
             const paymentAmounts = '[[${paymentAmounts}]]'.split(',').map(Number);
 
             new Chart(ctx, {
-                type: 'line',
+                type: 'bar', // Changed from 'line' to 'bar'
                 data: {
                     labels: paymentDates,
                     datasets: [{
@@ -334,6 +360,30 @@
                         }
                     }
                 }
+            });
+        });
+    </script>
+
+
+
+    <!-- logout modal script  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteForm = document.getElementById('deleteForm');
+            var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+            // Event listener for the delete confirmation button
+            confirmDeleteBtn.addEventListener('click', function () {
+                var form = deleteForm;
+                form.submit();
+            });
+
+            // Event listener to set the form action dynamically
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var action = button.data('action');
+                var form = document.getElementById('deleteForm');
+                form.action = action;
             });
         });
     </script>
